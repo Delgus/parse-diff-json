@@ -2,19 +2,21 @@ package main
 
 import (
 	"fmt"
-	v1 "github.com/delgus/meetup/diffjson/api/v1"
 	"net/http"
+
+	//api "github.com/delgus/parse-diff-json/api/v1"
+	api "github.com/delgus/parse-diff-json/api/v2"
 )
 
 func main() {
-	api := v1.NewApi()
-	api.OnMessage = func(message v1.Message) {
+	apiServer := api.NewApi()
+	apiServer.OnMessage = func(message api.Message) {
 		fmt.Println(message)
 	}
-	api.OnEvent = func(event v1.Event) {
+	apiServer.OnEvent = func(event api.Event) {
 		fmt.Println(event)
 	}
-	if err := http.ListenAndServe(":5000", api); err != nil {
+	if err := http.ListenAndServe(":5000", apiServer); err != nil {
 		panic(err)
 	}
 }
